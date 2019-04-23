@@ -1,0 +1,55 @@
+html, body {
+    margin: 0;
+    overflow: hidden;
+}
+#mycanvas {
+    background-color: rgba(45, 45, 45, 0.8);
+    background-color: steelblue;
+}
+.score {
+    position: fixed;
+    left: 50px;
+    bottom: 50px;
+    font-family: 'Muli', sans-serif;
+    color: #f1f1f1;
+}
+.warning {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    padding: 4px 6px;
+    color: #383A3C;
+    border: 1px solid #383A3C;
+    background-color: rgba(244, 235, 23, 0.8);
+    text-align: center;
+}
+.warning h1 {
+    background-color: #383A3C;
+    color: rgba(244, 235, 23, 0.8);
+    font-family: 'Muli', sans-serif;
+    font-size: 1.3rem;
+    padding: 4px 6px;
+}
+.warning p {
+    color: #383A3C;
+    font-family: 'Muli', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 2px;
+}
+.info {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid white;
+    color:  white;
+    font-family: 'Muli', sans-serif;
+    font-weight: bold;
+    font-size: 5rem;
+    padding: 30px 50px;
+    opacity: 0;
+}
+h1 {
+    margin: 0;
+}
