@@ -15,8 +15,7 @@ function setCanvasSize() {
     wh = canvas.height = window.innerHeight;
 }
 function clear() {
-    // c.fillStyle = 'rgba(234, 109, 75, 0.8)'
-    c.fillStyle = 'rgba(45, 45, 45, 0.8)'
+    c.fillStyle = 'rgba(45, 45, 45, 0.6)'
     c.fillRect(0,0,ww,wh)
 }
 

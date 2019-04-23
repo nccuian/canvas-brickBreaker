@@ -26,10 +26,21 @@ class Ball {
         return this.p.y - this.r > wh
     }
     draw() {
-        c.fillStyle = '#f1f1f1'
+        c.fillStyle = '#d34904'
         c.beginPath()
         c.arc(this.p.x, this.p.y, this.r, 0, Math.PI*2)
         c.fill()
+        c.strokeStyle = '#313233'
+        c.beginPath()
+        c.moveTo(this.p.x, this.p.y-this.r)
+        c.lineTo(this.p.x, this.p.y+this.r)
+        c.moveTo(this.p.x-this.r, this.p.y)
+        c.lineTo(this.p.x+this.r, this.p.y)
+        c.moveTo(this.p.x-this.r*Math.cos(45*(Math.PI/180)), this.p.y-this.r*Math.sin(45*(Math.PI/180)))
+        c.lineTo(this.p.x+this.r*Math.cos(45*(Math.PI/180)), this.p.y+this.r*Math.sin(45*(Math.PI/180)))
+        c.moveTo(this.p.x+this.r*Math.cos(45*(Math.PI/180)), this.p.y-this.r*Math.sin(45*(Math.PI/180)))
+        c.lineTo(this.p.x-this.r*Math.cos(45*(Math.PI/180)), this.p.y+this.r*Math.sin(45*(Math.PI/180)))
+        c.stroke()
     }
     update() {
         //撞到邊反彈
