@@ -19,17 +19,23 @@ function clear() {
     c.fillRect(0,0,ww,wh)
 }
 
-// 偵測鍵盤按左按右，放開時paddle停掉
+// 偵測鍵盤
 let keyIsDown
 function keyDown(code, isKeyup) {
-    if(isKeyup) {
+    if(isKeyup) {                                          //按鍵放開時paddle停掉
         keyIsDown = null
-    } else {
-        if(code == 37) {
-            keyIsDown =  'left'
-        } else if (code == 39) {
-            keyIsDown =  'right'
-        } else keyIsDown =  null
+    } else {                                                        
+        if(gameStatus==='lose' || gameStatus==='win') {    //結束時隨便按重置遊戲
+            setup()
+        } else {
+            if(code == 37) {                               //按左按右、暫停
+                keyIsDown =  'left'
+            } else if (code == 39) {
+                keyIsDown =  'right'
+            } else if (code == 32) {
+                gameStatus = gameStatus==='playing'? 'pause': 'playing'
+            } else keyIsDown =  null
+        }
     }
 }
 
@@ -68,47 +74,58 @@ function setup() {
 }
 
 function draw() {
-    if(gameStatus === 'playing') {
-        requestAnimationFrame(draw);
-        clear()
-        
-        paddle.draw()
-        
-        if(keyIsDown=='left') {
-            paddle.move('left')
-        } else if (keyIsDown=='right') {
-            paddle.move('right')
-        }
+    clear()
+    
+    paddle.draw()
+    
+    if(keyIsDown=='left') {
+        paddle.move('left')
+    } else if (keyIsDown=='right') {
+        paddle.move('right')
+    }
 
-        ball.draw()
-        ball.update()
+    ball.draw()
+    ball.update()
 
-        //handle bricks
-        for(let i = bricks.length-1; i >= 0 ; i--) {
-            const brick = bricks[i]
-            if(brick.isCollide(ball)) {
-                ball.velocity = ball.velocity.mul(1.03)
-                ball.velocity.y *= -1
-                bricks.splice(i, 1)
-                score += brick.point
-                scoreDisplay.innerText = `SCORE : ${score}`
-            } else {
-                brick.draw() //沒撞掉、沒從陣列移除才畫，不然會一直重畫出來
-            }
-        }
-
-        gameStatus = ball.isBelowBottom()? 'lose': bricks.length === 0? 'win': 'playing'
-          
-    } else {
-        if(gameStatus === 'lose') {
-            infoDisplay.style = 'opacity: 1'
-            infoDisplay.innerText = 'You Lose'
+    //handle bricks
+    for(let i = bricks.length-1; i >= 0 ; i--) {
+        const brick = bricks[i]
+        if(brick.isCollide(ball)) {
+            ball.velocity = ball.velocity.mul(1.03)
+            ball.velocity.y *= -1
+            bricks.splice(i, 1)
+            score += brick.point
+            scoreDisplay.innerText = `SCORE : ${score}`
         } else {
-            infoDisplay.style = 'opacity: 1'
-            infoDisplay.innerText = 'You Win'
+            brick.draw() //沒撞掉、沒從陣列移除才畫，不然會一直重畫出來
         }
     }
 
+    gameStatus = ball.isBelowBottom()? 'lose': bricks.length === 0? 'win': 'playing'
+}
+
+//持續確認遊戲狀態
+const check = () => {
+    if(gameStatus==='playing') {
+        infoDisplay.style = 'opacity: 0'
+        infoDisplay.innerText = ''
+        draw()
+    } else {
+        if(gameStatus === 'lose') {
+            infoDisplay.style = 'opacity: 1'
+            infoDisplay.innerText = 'You Lose, press any key to restart.'
+        } else if(gameStatus === 'win'){
+            infoDisplay.style = 'opacity: 1'
+            infoDisplay.innerText = 'You Win, press any key to restart.'
+        } else if(gameStatus === 'pause'){
+            infoDisplay.style = 'opacity: 1'
+            infoDisplay.innerText = 'PAUSE'
+        } else {
+            console.log('else')
+            draw();
+        }
+    }
+    requestAnimationFrame(check)
 }
 
 window.addEventListener('resize', setup)
@@ -120,4 +137,4 @@ window.addEventListener('keyup', (e) => {
 }) 
 
 setup();
-draw();
+check()
