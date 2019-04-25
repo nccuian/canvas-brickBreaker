@@ -27,6 +27,8 @@ function keyDown(code, isKeyup) {
     } else {                                                        
         if(gameStatus==='lose' || gameStatus==='win') {    //結束時隨便按重置遊戲
             setup()
+            score = 0
+            scoreDisplay.innerText = `SCORE : ${score}`
         } else {
             if(code == 37) {                               //按左按右、暫停
                 keyIsDown =  'left'
