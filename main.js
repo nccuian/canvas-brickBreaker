@@ -3,8 +3,10 @@ const c = canvas.getContext('2d');
 let ww, wh;
 const scoreDisplay = document.querySelector('.score h1')
 const infoDisplay = document.querySelector('.info')
+const infoDisplayH1 = document.querySelector('.info h1')
 
 let score = 0
+let scoreLastTime = 0
 let paddle
 let ball 
 let bricks
@@ -72,6 +74,7 @@ function setup() {
     paddle = new Paddle()
     ball = new Ball(paddle)
     bricks = createBricks(8, 10) // (brick_rows, brick_per_Row)
+    scoreLastTime = localStorage.getItem('score') === null? 0: localStorage.getItem('score')
     gameStatus = 'playing'
 }
 
@@ -110,20 +113,32 @@ function draw() {
 const check = () => {
     if(gameStatus==='playing') {
         infoDisplay.style = 'opacity: 0'
-        infoDisplay.innerText = ''
         draw()
     } else {
         if(gameStatus === 'lose') {
+            localStorage.setItem('score', score)
+            let txt
+            if(scoreLastTime<score) {
+                txt = `but you made progress from 
+                    <span>${scoreLastTime}</span> to <span>${score}</span>. Good job`
+            } else if(scoreLastTime>score) {
+                txt = `and you dropped from 
+                    <span>${scoreLastTime}</span> to <span>${score}</span>. Keep going`
+            } else {
+                txt = `and you got the same point as last time 
+                    <span>${scoreLastTime}</span>. Keep going`
+            }
             infoDisplay.style = 'opacity: 1'
-            infoDisplay.innerText = 'You Lose, press any key to restart.'
+            infoDisplayH1.style.fontSize = '2.5rem'
+            infoDisplayH1.innerHTML = `You Lose, ${txt}`
         } else if(gameStatus === 'win'){
             infoDisplay.style = 'opacity: 1'
-            infoDisplay.innerText = 'You Win, press any key to restart.'
+            infoDisplayH1.innerText = 'You Win. Nice'
         } else if(gameStatus === 'pause'){
             infoDisplay.style = 'opacity: 1'
-            infoDisplay.innerText = 'PAUSE'
+            infoDisplayH1.style.fontSize = '5rem'
+            infoDisplayH1.innerText = 'PAUSE'
         } else {
-            console.log('else')
             draw();
         }
     }

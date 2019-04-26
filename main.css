@@ -43,13 +43,22 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid white;
-    color:  white;
-    font-family: 'Muli', sans-serif;
-    font-weight: bold;
-    font-size: 5rem;
     padding: 30px 50px;
     opacity: 0;
     text-align: center;
+}
+.info h1 {
+    color:  white;
+    font-family: 'Muli', sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+}
+.info h1 span {
+    color: rgba(244, 235, 23, 0.8);
+}
+.info p {
+    color: white;
+    margin: 10px 0 0 0;
 }
 h1 {
     margin: 0;
